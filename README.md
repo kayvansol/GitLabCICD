@@ -2,19 +2,19 @@
 
 ![alt text](https://raw.githubusercontent.com/kayvansol/GitLabCICD/refs/heads/main/img/1.webp?raw=true)
 
-GitLab is a web-based Git repository that provides free open and private repositories, issue-following capabilities, and wikis. It is a complete DevOps platform that enables professionals to perform all the tasks in a project — from project planning and source code management to monitoring and security.
+**`GitLab`** is a web-based Git repository that provides free open and private repositories, issue-following capabilities, and wikis. It is a complete DevOps platform that enables professionals to perform all the tasks in a project — from project planning and source code management to monitoring and security.
 
-This article will guide you on how to do CI/CD pipeline setup with GitLab.
+This article will guide you on how to do **`CI/CD pipeline`** setup with GitLab.
 
 Continuous integration and continuous delivery (CI/CD) is a methodology of automatically building and deploying code to provide you with greater speed and reliability. It is done in two parts: continuous integration (CI) and continuous delivery (CD).
 
-Continuous delivery is then getting your code to a deliverable state, so it can be deployed at the click of a button. Or, in the case of continuous deployment, automatically deploy your code if all tests pass.
+`Continuous delivery` is then getting your code to a deliverable state, so it can be deployed at the click of a button. Or, in the case of `continuous deployment`, automatically deploy your code if all tests pass.
 
 </hr>
 
 ![alt text](https://raw.githubusercontent.com/kayvansol/GitLabCICD/refs/heads/main/img/2.webp?raw=true)
 
-Installing docker on 2 servers with ansible 🎉
+# Installing docker on 2 servers with ansible 🎉
 
 Related files are stored at my github :
 
@@ -34,7 +34,7 @@ The result of installing docker ✔️:
 
 </hr>
 
-Installing gitlab on docker (GitLabServer) 🎉
+# Installing gitlab on docker (GitLabServer) 🎉
 
 Pull the gitlab docker image from repository.
 ```
@@ -171,7 +171,7 @@ Specify users to the project :
 
 ![alt text](https://raw.githubusercontent.com/kayvansol/GitLabCICD/refs/heads/main/img/14.webp?raw=true)
 
-Global dashboard overview :
+Global `dashboard` overview :
 
 ![alt text](https://raw.githubusercontent.com/kayvansol/GitLabCICD/refs/heads/main/img/15.webp?raw=true)
 
@@ -179,7 +179,7 @@ add user’s machine’s ssh public key for working with gitlab project :
 
 ![alt text](https://raw.githubusercontent.com/kayvansol/GitLabCICD/refs/heads/main/img/16.webp?raw=true)
 
-Clone the project to your local area :
+**Clone** the project to your local area :
 
 ![alt text](https://raw.githubusercontent.com/kayvansol/GitLabCICD/refs/heads/main/img/17.webp?raw=true)
 
@@ -193,15 +193,16 @@ Create file & folders related to your project & commit and push them :
 
 </hr>
 
-Set Up a GitLab Runner 🎉
+# Set Up a GitLab Runner 🎉
 
-GitLab Runner is an application that works with GitLab CI/CD to run jobs in a pipeline.
+**`GitLab Runner`** is an application that works with GitLab CI/CD to run jobs in a pipeline.
 
 Runners are available based on who you want to have access to :
 
 Shared runners are available to all groups and projects in a GitLab instance.
 Group runners are available to all projects and subgroups in a group.
 Specific runners are associated with specific projects. Typically, specific runners are used for one project at a time.
+
 Configuring the Runner server on docker compose file :
 
 ```
@@ -273,7 +274,7 @@ After providing those details we are able to see our Specific Runner has been Co
 
 ![alt text](https://raw.githubusercontent.com/kayvansol/GitLabCICD/refs/heads/main/img/24.webp?raw=true)
 
-Create some changes at runner’s config.toml file (runner server) :
+Create some changes at runner’s **`config.toml`** file (runner server) :
 ```
 docker inspect --format='{{.NetworkSettings.Networks}}' 4819f97432fc
 ```
@@ -288,9 +289,9 @@ vi /etc/gitlab-runner/config.toml
 
 </br>
 
-It’s time to establish a CI/CD pipeline 🎉
+# It’s time to establish a CI/CD pipeline 🎉
 
-For Running the Pipeline, first we need to write the .gitlab-ci.yml YML file. Create a file named .gitlab-ci.yml at the root of the project and write your desire dscripts & stages :
+For Running the Pipeline, first we need to write the **`.gitlab-ci.yml`** YML file. Create a file named `.gitlab-ci.yml` at the root of the project and write your desire dscripts & stages :
 
 ![alt text](https://raw.githubusercontent.com/kayvansol/GitLabCICD/refs/heads/main/img/27.webp?raw=true)
 ```
@@ -322,29 +323,29 @@ build-job:
   when: manual
 ```
 
-Note : manual means continuous delivery (CD) & without this line we have continuous deployment (CD)
+Note : **manual** means continuous delivery (CD) & without this line we have continuous deployment (CD)
 
-Note : For docker:dind image, we pull it from docker repository and then tag & push it to our local registry (on port 5000) for performance :
+Note : For **`docker:dind`** image, we pull it from docker repository and then tag & push it to our local registry (on port 5000) for performance :
 
 ![alt text](https://raw.githubusercontent.com/kayvansol/GitLabCICD/refs/heads/main/img/28.webp?raw=true)
 
 ![alt text](https://raw.githubusercontent.com/kayvansol/GitLabCICD/refs/heads/main/img/29.webp?raw=true)
 
-For copying objects to production server, we need a ssh key on gitlab runner & use it’s private key at .gitlab-ci.yml ${SSH_PRIVATE_KEY} and also copy it’s public key to production server :
+For copying objects to production server, we need a ssh key on gitlab runner & use it’s private key at .gitlab-ci.yml **`${SSH_PRIVATE_KEY}`** and also copy it’s public key to production server :
 
 ![alt text](https://raw.githubusercontent.com/kayvansol/GitLabCICD/refs/heads/main/img/30.webp?raw=true)
 
 Go to Settings > CI/CD > Variables :
 
-Create a file typed variable named SSH_PRIVATE_KEY :
+Create a file typed variable named **SSH_PRIVATE_KEY** :
 
 ![alt text](https://raw.githubusercontent.com/kayvansol/GitLabCICD/refs/heads/main/img/31.webp?raw=true)
 
-Copy the id_rsa (private key) entire content to the Value box and insert a new line at the end of it and then save changes :
+Copy the **id_rsa** (private key) entire content to the Value box and insert a new line at the end of it and then save changes :
 
 ![alt text](https://raw.githubusercontent.com/kayvansol/GitLabCICD/refs/heads/main/img/32.webp?raw=true)
 
-and then copy the id_rsa.pub content to the production server :
+and then copy the **id_rsa.pub** content to the production server :
 ```
 ssh-copy-id -i .ssh/id_rsa.pub root@192.168.56.157
 ```
@@ -371,11 +372,11 @@ Check the production server for transferred project contents :
 
 </br>
 
-Test again the pipeline with other user (root) ♻️ :
+# Test again the pipeline with other user (root) ♻️ :
 
 ![alt text](https://raw.githubusercontent.com/kayvansol/GitLabCICD/refs/heads/main/img/38.webp?raw=true)
 
-Note : Commit 80e16891 🎉
+Note : `Commit 80e16891` 🎉
 
 ![alt text](https://raw.githubusercontent.com/kayvansol/GitLabCICD/refs/heads/main/img/39.webp?raw=true)
 
@@ -395,9 +396,9 @@ Check the production server again for transferred project contents :
 
 </br>
 
-Writing ssh multiline commands 🎉
+# Writing ssh multiline commands 🎉
 
-Write and save some changes including bash scripts & docker commands at .gitlab-ci.yml file :
+Write and save some changes including bash scripts & docker commands at `.gitlab-ci.yml` file :
 
 ```
 stages:
@@ -434,7 +435,7 @@ build-job:
   when: manual
 ```
 
-Note : Commit 4fd2cae9 🎉
+Note : `Commit 4fd2cae9` 🎉
 
 ![alt text](https://raw.githubusercontent.com/kayvansol/GitLabCICD/refs/heads/main/img/45.webp?raw=true)
 
@@ -444,4 +445,4 @@ Pipeline is going to takeoff 🚀
 
 ![alt text](https://raw.githubusercontent.com/kayvansol/GitLabCICD/refs/heads/main/img/47.webp?raw=true)
 
-Congratulation 🍹
+# Congratulation 🍹
