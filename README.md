@@ -376,12 +376,61 @@ Note : Commit 80e16891 🎉
 
 ![alt text](https://raw.githubusercontent.com/kayvansol/GitLabCICD/refs/heads/main/img/42.webp?raw=true)
 
+Check the changes content (commit changes) :
+
 ![alt text](https://raw.githubusercontent.com/kayvansol/GitLabCICD/refs/heads/main/img/43.webp?raw=true)
+
+Check the production server again for transferred project contents :
 
 ![alt text](https://raw.githubusercontent.com/kayvansol/GitLabCICD/refs/heads/main/img/44.webp?raw=true)
 
+</br>
+
+Writing ssh multiline commands 🎉
+Write and save some changes including bash scripts & docker commands at .gitlab-ci.yml file :
+
+```
+stages:
+  - build
+
+build-job:
+  image: localhost:5000/docker:dind 
+  stage: build 
+  variables: 
+    SERVER_IP: 192.168.56.157   
+    SSH_USER: root
+  before_script:
+    - 'command -v ssh-agent >/dev/null || ( apk add --update openssh )'
+    - eval $(ssh-agent -s)
+    - chmod 400 ${SSH_PRIVATE_KEY}
+    #- echo ${SSH_PRIVATE_KEY}
+    - ssh-add ${SSH_PRIVATE_KEY}
+    - mkdir -p ~/.ssh
+    - chmod 700 ~/.ssh
+    - ssh-keyscan ${SERVER_IP} >> ~/.ssh/known_hosts
+    - chmod 644 ~/.ssh/known_hosts
+  script:    
+    - |
+      scp -o StrictHostKeyChecking=no -r app  ${SSH_USER}@${SERVER_IP}:/opt/text/
+      scp -o StrictHostKeyChecking=no newfile.txt  ${SSH_USER}@${SERVER_IP}:/opt/text/
+      ssh -o StrictHostKeyChecking=no ${SSH_USER}@${SERVER_IP} "
+      echo '********* ls command *********'
+      ls /opt/text
+      echo '******** cat the file ********'
+      cat /opt/text/newfile.txt
+      echo '******************************'
+      docker run hello-world
+      "            
+  when: manual
+```
+Note : Commit 4fd2cae9 🎉
+
 ![alt text](https://raw.githubusercontent.com/kayvansol/GitLabCICD/refs/heads/main/img/45.webp?raw=true)
+
+Pipeline is going to takeoff 🚀
 
 ![alt text](https://raw.githubusercontent.com/kayvansol/GitLabCICD/refs/heads/main/img/46.webp?raw=true)
 
 ![alt text](https://raw.githubusercontent.com/kayvansol/GitLabCICD/refs/heads/main/img/47.webp?raw=true)
+
+Congratulation 🍹
