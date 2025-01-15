@@ -15,6 +15,7 @@ Continuous delivery is then getting your code to a deliverable state, so it can 
 ![alt text](https://raw.githubusercontent.com/kayvansol/GitLabCICD/refs/heads/main/img/2.webp?raw=true)
 
 Installing docker on 2 servers with ansible 🎉
+
 Related files are stored at my github :
 
 ![alt text](https://raw.githubusercontent.com/kayvansol/GitLabCICD/refs/heads/main/img/3.webp?raw=true)
@@ -34,6 +35,7 @@ The result of installing docker ✔️:
 </hr>
 
 Installing gitlab on docker (GitLabServer) 🎉
+
 Pull the gitlab docker image from repository.
 ```
 docker pull gitlab/gitlab-ce:nightly
@@ -192,6 +194,7 @@ Create file & folders related to your project & commit and push them :
 </hr>
 
 Set Up a GitLab Runner 🎉
+
 GitLab Runner is an application that works with GitLab CI/CD to run jobs in a pipeline.
 
 Runners are available based on who you want to have access to :
@@ -200,6 +203,7 @@ Shared runners are available to all groups and projects in a GitLab instance.
 Group runners are available to all projects and subgroups in a group.
 Specific runners are associated with specific projects. Typically, specific runners are used for one project at a time.
 Configuring the Runner server on docker compose file :
+
 ```
 version: '3.8'
 
@@ -224,6 +228,7 @@ docker compose pull
 
 docker compose up -d
 ```
+
 Running the compose 🚀
 
 ![alt text](https://raw.githubusercontent.com/kayvansol/GitLabCICD/refs/heads/main/img/21.webp?raw=true)
@@ -234,6 +239,7 @@ gitlab-runner register
 --url http://gitlab.example.com  
 --token glrt-t3_PtA9egtEgpG5AyZsoz6R
 ```
+
 Inside the runner server :
 ```
 docker exec -it gitlab-runner /bin/bash
@@ -281,7 +287,9 @@ vi /etc/gitlab-runner/config.toml
 ![alt text](https://raw.githubusercontent.com/kayvansol/GitLabCICD/refs/heads/main/img/26.webp?raw=true)
 
 </br>
+
 It’s time to establish a CI/CD pipeline 🎉
+
 For Running the Pipeline, first we need to write the .gitlab-ci.yml YML file. Create a file named .gitlab-ci.yml at the root of the project and write your desire dscripts & stages :
 
 ![alt text](https://raw.githubusercontent.com/kayvansol/GitLabCICD/refs/heads/main/img/27.webp?raw=true)
@@ -362,6 +370,7 @@ Check the production server for transferred project contents :
 ![alt text](https://raw.githubusercontent.com/kayvansol/GitLabCICD/refs/heads/main/img/37.webp?raw=true)
 
 </br>
+
 Test again the pipeline with other user (root) ♻️ :
 
 ![alt text](https://raw.githubusercontent.com/kayvansol/GitLabCICD/refs/heads/main/img/38.webp?raw=true)
@@ -387,6 +396,7 @@ Check the production server again for transferred project contents :
 </br>
 
 Writing ssh multiline commands 🎉
+
 Write and save some changes including bash scripts & docker commands at .gitlab-ci.yml file :
 
 ```
@@ -423,6 +433,7 @@ build-job:
       "            
   when: manual
 ```
+
 Note : Commit 4fd2cae9 🎉
 
 ![alt text](https://raw.githubusercontent.com/kayvansol/GitLabCICD/refs/heads/main/img/45.webp?raw=true)
